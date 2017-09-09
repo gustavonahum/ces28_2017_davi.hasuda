@@ -21,6 +21,9 @@ public class lab2Tests {
 		assertEquals(3, CalculadoraString.add("   1 , 2"));
 		assertEquals(3, CalculadoraString.add("01 , 002"));
 		assertEquals(6, CalculadoraString.add("1,2,3"));
+		assertEquals(6, CalculadoraString.add("1,2 3"));
+		assertEquals(10, CalculadoraString.add(",1  2 3,4, ,"));
+		assertEquals(10, CalculadoraString.add("1   2  3   4"));
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

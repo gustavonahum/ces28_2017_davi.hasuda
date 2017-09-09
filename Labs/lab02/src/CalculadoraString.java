@@ -7,33 +7,38 @@ public class CalculadoraString {
 	 * Main method to be implemented for this lab
 	 * */
 	static public int add(String s) throws IllegalArgumentException {
-		// Checking for new delimeters
-		Set<String> delimeters = new HashSet<String>();
+		// Checking for new delimiters
+		Set<String> delimiters = new HashSet<String>();
 		try {
 			if (s.substring(0, 3).compareTo("//[") == 0) {
 				s = s.substring(2);
 				while (s.charAt(0) == '[') {
-					int lastIndexDelimeter = s.indexOf("]");
-					if (lastIndexDelimeter > 1) {
-						String newDelimeter = s.substring(1, lastIndexDelimeter);
-						if (newDelimeter.isEmpty()) {
+					if (s.indexOf("]") > 0)
+					{
+						int lastIndexDelimeter = s.indexOf("]");
+						if (lastIndexDelimeter > 1) {
+							String newDelimeter = s.substring(1, lastIndexDelimeter);
+							delimiters.add(newDelimeter);
+							s = s.substring(lastIndexDelimeter + 1);
+						} else {
+							// Blank delimiter
 							throw new IllegalArgumentException();
 						}
-						delimeters.add(newDelimeter);
-						s = s.substring(lastIndexDelimeter + 1);
 					} else {
+						// Doesn't have a closing "]" for some delimiter definition
 						throw new IllegalArgumentException();
 					}
 				}
-				s = s.substring(1); // remove the '\n'
+				s = s.substring(1); // Advances to next character
 			}
 		} catch (IndexOutOfBoundsException e) {
-			// Make nothing
+			// In case substring(0,3) is greater than the string's own size
+			// Do nothing
 		}
 		
-		
 		s = s.replaceAll("\n", ",");
-		for (String delim: delimeters) {
+		s = s.replaceAll(" ", ",");
+		for (String delim: delimiters) {
 			s = s.replace(delim, ",");
 		}
 		
